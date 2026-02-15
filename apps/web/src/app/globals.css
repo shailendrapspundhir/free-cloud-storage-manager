@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
+/* Enhanced Tailwind v4 theme setup with class-based dark mode for switcher */
+/* Light theme: light bg (#ffffff) + darker fonts (#171717 , muted #4b5563) for readability */
+/* Dark theme: dark bg (#0a0a0a) + light fonts (#ededed) - uses existing contrasts , full UI coverage */
+/* Toggle via .dark class on <html> ; vars + explicit dark: ensure all elements (bg/text/buttons/dropdowns) change */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* Light bg */
+  --foreground: #171717; /* Darker font color */
+  --foreground-muted: #4b5563; /* Muted dark for labels/secondary */
+  --background-muted: #f3f4f6; /* Light muted for boxes */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-background-muted: var(--background-muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark mode overrides (activated by .dark class) */
+.dark {
+  --background: #0a0a0a; /* Dark bg */
+  --foreground: #ededed; /* Light font color */
+  --foreground-muted: #d1d5db; /* Muted light */
+  --background-muted: #1f2937; /* Dark muted for boxes */
 }
 
+/* Base elements + full UI coverage for theme change (body , text , muted , boxes) */
+/* Ensures font/bg colors update visibly on switch */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth switch */
+}
+
+/* Explicit styles for common elements to guarantee contrast/change (buttons , labels , dropdowns , lists) */
+button, label, input, select, .dropdown, li, p, span {
+  color: var(--foreground);
+  background: var(--background);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover, label:hover {
+  opacity: 0.9; /* Maintain contrast */
+}
+
+/* Muted elements (labels , secondary text , info boxes) */
+.text-muted, p.text-gray-600, span.text-gray-600, div.bg-gray-100 {
+  color: var(--foreground-muted);
+  background: var(--background-muted);
+}
+
+/* Fallback for prefers-color-scheme if no JS switcher */
+/* Explicit .light for toggle enforcement (darker fonts/light bgs) */
+.light {
+  --background: #ffffff;
+  --foreground: #171717;
+  --foreground-muted: #4b5563;
+  --background-muted: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --foreground-muted: #d1d5db;
+    --background-muted: #1f2937;
+  }
 }

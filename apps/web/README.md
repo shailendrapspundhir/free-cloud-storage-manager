@@ -14,7 +14,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result (web app runs on 3001 to avoid conflict with backend on 3000).
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
