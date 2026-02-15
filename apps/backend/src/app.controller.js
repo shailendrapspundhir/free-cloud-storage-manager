@@ -1,9 +1,11 @@
-const { Controller, Get, Post, Req } = require('@nestjs/common');
-const AppService = require('./app.service');
+const { Controller, Get, Post, Body, Inject } = require('@nestjs/common');
+const { AppService } = require('./app.service');
 
 @Controller()
 export class AppController {
-  constructor(appService) {
+  constructor(@Inject(AppService) appService) {
+    // Using @Inject to ensure proper dependency injection in JavaScript setup
+    // without relying on TypeScript metadata reflection
     this.appService = appService;
   }
 
@@ -13,12 +15,9 @@ export class AppController {
   }
 
   @Post('auth/login')
-  login(@Req req) {
-    const { username, password } = req.body;
-    if (username === 'admin' && password === 'password') {
-      return { success: true, message: 'Logged in successfully' };
-    } else {
-      return { success: false, message: 'Invalid credentials' };
-    }
+  async login(@Body() body) {
+    const { username, password } = body;
+    // Delegate to service for auth logic and DB check
+    return this.appService.login(username, password);
   }
 }
