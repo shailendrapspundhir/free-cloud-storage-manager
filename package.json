@@ -1,0 +1,16 @@
+{
+  "name": "free-storage-manager",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm --filter web run build",
+    "start": "pnpm --filter backend start & pnpm --filter web dev"
+  },
+  "devDependencies": {
+    "pnpm": "^8.0.0"
+  }
+}
